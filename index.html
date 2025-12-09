@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enverge - Greener than green</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'void': '#ffffff', /* Pure white */
+                        'forest': '#f0fdf4', /* Mint cream */
+                        'nvidia': '#8FD14F', /* Brand Lime */
+                        'nvidia-dark': '#4d7c2a', /* Darker lime */
+                        'nvidia-light': '#bef264', /* Lighter lime */
+                        'glass': 'rgba(255, 255, 255, 0.7)', /* White tinted glass */
+                        'glass-border': 'rgba(143, 209, 79, 0.3)',
+                        'text-primary': '#0a1f0e', /* Dark forest green (almost black) */
+                        'text-secondary': '#166534', /* Dark green */
+                        'text-muted': '#15803d', /* Medium green */
+                        'text-subtle': '#16a34a' /* Light green */
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'], /* Organic/Exotic feel */
+                    },
+                    backgroundImage: {
+                        'bio-gradient': 'radial-gradient(circle at 50% 50%, rgba(143, 209, 79, 0.1) 0%, transparent 50%)',
+                        'rainforest-mist': 'linear-gradient(to bottom, transparent, #ffffff)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(143, 209, 79, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(20, 80, 40, 0.05) 0%, transparent 30%);
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(143, 209, 79, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        /* Organic blob animation */
+        @keyframes float {
+            0% { transform: translate(0px, 0px) scale(1); border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            33% { transform: translate(30px, -50px) scale(1.1); border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+            66% { transform: translate(-20px, 20px) scale(0.9); border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            100% { transform: translate(0px, 0px) scale(1); border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+        }
+        .organic-blob {
+            animation: float 20s ease-in-out infinite;
+            background: radial-gradient(circle at 30% 30%, rgba(143, 209, 79, 0.4), rgba(143, 209, 79, 0.1));
+            filter: blur(60px);
+        }
+        
+        /* Form select styling hacks */
+        select {
+            background-image: none;
+            text-align-last: center;
+        }
+    </style>
+</head>
+<body class="bg-void text-text-primary antialiased selection:bg-nvidia selection:text-white pt-20">
+
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300" id="navbar">
+        <div class="glass-panel border-b border-glass-border">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex items-center h-20">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0">
+                        <a href="#" class="text-2xl font-bold text-primary tracking-tight hover:text-nvidia transition-colors">
+                            Enverge.ai
+                        </a>
+                    </div>
+                    
+                    <!-- Right Side Actions -->
+                    <div class="ml-auto flex items-center gap-8">
+                        <!-- Desktop Menu -->
+                        <div class="hidden md:block">
+                            <div class="flex items-baseline space-x-8">
+                                <a href="#problem" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Problem</a>
+                                <a href="#solution" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Solution</a>
+                                <a href="#faq" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">FAQ</a>
+                            </div>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <div class="hidden md:block">
+                            <a href="#" onclick="openModal(event)" class="bg-nvidia hover:bg-nvidia-light text-primary font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(181,232,137,0.4)] text-sm">
+                                Train Responsibly
+                            </a>
+                        </div>
+
+                        <!-- Mobile menu button -->
+                        <div class="-mr-2 flex md:hidden">
+                            <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-text-secondary hover:text-primary hover:bg-primary/10 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+                                <span class="sr-only">Open main menu</span>
+                                <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden glass-panel border-t border-glass-border" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#problem" class="text-text-secondary hover:text-nvidia block px-3 py-2 rounded-md text-base font-medium">The Problem</a>
+                    <a href="#solution" class="text-text-secondary hover:text-nvidia block px-3 py-2 rounded-md text-base font-medium">Solution</a>
+                    <a href="#faq" class="text-text-secondary hover:text-nvidia block px-3 py-2 rounded-md text-base font-medium">FAQ</a>
+                    <a href="#" onclick="openModal(event); document.getElementById('mobile-menu').classList.add('hidden');" class="text-primary bg-nvidia hover:bg-nvidia-light block px-3 py-2 rounded-md text-base font-bold mt-4">Train Responsibly</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex flex-col justify-center items-center px-6 py-12 relative overflow-visible">
+        <div class="absolute top-0 left-0 w-full h-full overflow-visible -z-10 opacity-40 pointer-events-none">
+            <div class="organic-blob absolute top-1/4 left-1/4 w-96 h-96 bg-nvidia-light/30"></div>
+            <div class="organic-blob absolute bottom-1/4 right-1/4 w-64 h-64 bg-nvidia/20 animation-delay-2000" style="animation-delay: -5s;"></div>
+            <div class="organic-blob absolute top-3/4 left-1/2 w-80 h-80 bg-forest" style="animation-delay: -10s;"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+                Enough energy for<br /><span id="rotating-text" class="text-nvidia transition-opacity duration-500">6.5 million homes</span><br />is wasted every year
+            </h1>
+            
+            <div class="space-y-6 text-xl md:text-2xl text-text-secondary font-light max-w-2xl mx-auto">
+                <p class="text-balance">Wasted. Gone. Never used.<br />Efficiency is the new currency.</p>
+                <p class="text-balance">Save energy, save money,<br />save the future.</p>
+            </div>
+
+            <div class="pt-8 flex flex-col md:flex-col items-center justify-center gap-3 md:gap-4">
+                <div class="text-2xl md:text-4xl font-bold text-primary whitespace-nowrap">
+                    <span>Stop wasting</span>
+                </div>
+                <a href="#" onclick="openModal(event)" class="group relative inline-flex items-center gap-1 bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(181,232,137,0.8)] overflow-hidden whitespace-nowrap">
+                    <span class="relative z-10 text-2xl md:text-4xl">Compute Responsibly</span>
+                    <svg class="w-10 h-10 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Attention Hook -->
+    <section id="problem" class="py-12 px-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="glass-panel p-8 md:p-12 rounded-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-text-primary">Datacenter are outdated.</h2>
+                <p class="text-lg text-text-primary leading-relaxed mb-4">
+                    Hyperscalers take too long to build, waste too much water, and strain the electrical grid that was built for communities.
+                </p>
+                <p class="text-lg text-text-primary leading-relaxed">
+                    Beyond money, your model training costs the planet. It costs the grid. It costs communities. It costs the future.
+                </p>
+                <div class="mt-6 pt-6 border-t border-glass-border">
+                    <p class="text-lg text-nvidia font-medium text-right font-bold">We found a better future.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- World Map Stats -->
+    <section class="py-12 relative">
+        <div class="bg-void border-y border-glass-border py-12">
+
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="relative w-full">
+                    <!-- Map -->
+                    <img src="assets/world.svg" alt="World Map of Energy Waste" class="w-full h-auto opacity-80">
+                    
+                    <!-- Pins Overlay -->
+                    <div class="absolute inset-0">
+                        <!-- North America (US) -->
+                        <div class="absolute top-[46%] left-[6%] flex flex-col items-center group hover:z-10">
+                            <div class="relative">
+                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(143,209,79,0.8)] animate-pulse"></div>
+                                <div class="absolute -inset-2 bg-black/20 rounded-full animate-ping opacity-75"></div>
+                            </div>
+                            <div class="mt-2 glass-panel px-3 py-2 rounded-md border border-glass-border backdrop-blur-md whitespace-nowrap transform transition-transform hover:scale-110">
+                                <div class="text-2xl font-bold text-primary leading-none">25 TWh/year wasted</div>
+                                <div class="text-xs text-text-muted mt-1 uppercase tracking-wider font-semibold">North America</div>
+                            </div>
+                        </div>
+
+                        <!-- South America -->
+                        <div class="absolute top-[76%] left-[20%] flex flex-col items-center group hover:z-10">
+                            <div class="relative">
+                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(143,209,79,0.8)] animate-pulse"></div>
+                                <div class="absolute -inset-2 bg-black/20 rounded-full animate-ping opacity-75"></div>
+                            </div>
+                            <div class="mt-2 glass-panel px-3 py-2 rounded-md border border-glass-border backdrop-blur-md whitespace-nowrap transform transition-transform hover:scale-110">
+                                <div class="text-2xl font-bold text-primary leading-none">18 TWh/year wasted</div>
+                                <div class="text-xs text-text-muted mt-1 uppercase tracking-wider font-semibold">South America</div>
+                            </div>
+                        </div>
+
+                        <!-- Europe -->
+                        <div class="absolute top-[44%] left-[36%] flex flex-col items-center group hover:z-10">
+                            <div class="relative">
+                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(143,209,79,0.8)] animate-pulse"></div>
+                                <div class="absolute -inset-2 bg-black/20 rounded-full animate-ping opacity-75"></div>
+                            </div>
+                            <div class="mt-2 glass-panel px-3 py-2 rounded-md border border-glass-border backdrop-blur-md whitespace-nowrap transform transition-transform hover:scale-110">
+                                <div class="text-2xl font-bold text-primary leading-none">19 TWh/year wasted</div>
+                                <div class="text-xs text-text-muted mt-1 uppercase tracking-wider font-semibold">Europe</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center max-w-2xl mx-auto">
+                    <p class="text-text-secondary text-lg italic">
+                        In North America 25 TWh/year is wasted.
+                    </p>
+                    <p class="text-text-secondary text-lg italic">
+                        In South America 18 TWh/year is wasted.
+                    </p>
+                    <p class="text-text-secondary text-lg italic">
+                        In Europe 19 TWh/year is wasted.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teach / Educate -->
+    <section id="solution" class="py-24 px-6 bg-forest relative">
+        <div class="max-w-4xl mx-auto space-y-24">
+            
+            <!-- Point 1 -->
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="flex-1 space-y-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-primary">Compute where the power is.</h3>
+                    <p class="text-text-secondary text-lg">
+                        Compute, the guerilla way. We aren't a trillion-dollar giant datacenter company. We deploy micro datacenters, tailored to consume off-grid electrons.
+                    </p>
+                    <p class="text-text-muted font-bold text-lg">No transmission loss. No waste.</p>
+                </div>
+                <div class="flex-1 h-64 w-full glass-panel rounded-xl flex items-center justify-center">
+                    <!-- Placeholder for visual -->
+                    <div class="text-nvidia opacity-50 text-6xl">⚡</div>
+                </div>
+            </div>
+
+            <!-- Point 2 -->
+            <div class="flex flex-col md:flex-row-reverse gap-12 items-center">
+                <div class="flex-1 space-y-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-primary">Top-end Hardware. The Right Scale.</h3>
+                    <p class="text-text-secondary text-lg">
+                        We are developers. We built the infrastructure we wanted to use. Bare metal. Fast pipes. No bloat.
+                    </p>
+                    <p class="text-text-muted font-bold text-lg">Just raw, clean compute.</p>
+                </div>
+                <div class="flex-1 h-64 w-full glass-panel rounded-xl flex items-center justify-center">
+                     <!-- Placeholder for visual -->
+                     <div class="text-nvidia opacity-50 text-6xl">🚀</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Objections -->
+    <section id="faq" class="py-24 px-6">
+        <div class="max-w-3xl mx-auto space-y-12">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary">"But..."</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                    <h4 class="text-xl font-bold text-primary mb-3">"Is it compatible?"</h4>
+                    <p class="text-text-muted">
+                        Yes. It's Linux. It's Docker. It's PyTorch. If it runs on your laptop or AWS, it runs here. Better.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                    <h4 class="text-xl font-bold text-primary mb-3">"Is it reliable?"</h4>
+                    <p class="text-text-muted">
+                        We use enterprise-grade hardware. We just don't wrap it in marble lobbies and marketing fluff.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                    <h4 class="text-xl font-bold text-primary mb-3">"Is it expensive?"</h4>
+                    <p class="text-text-muted">
+                        It's cheaper. We don't pay for the grid inefficiencies. Neither do you.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                    <h4 class="text-xl font-bold text-primary mb-3">"Who are you?"</h4>
+                    <p class="text-text-muted">
+                        Engineers. Builders. People tired of seeing energy wasted while training runs stall.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soft Call to Action -->
+    <section class="py-24 px-6 text-center">
+        <div class="max-w-2xl mx-auto">
+            <p class="text-2xl md:text-3xl font-light text-text-secondary mb-8">
+                The future of AI doesn't have to be black smoke and brownouts.
+            </p>
+            <p class="text-text-secondary mb-8 text-xl">
+                It can be green. It can be efficient. It can be yours.
+            </p>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section id="join" class="py-24 px-6 bg-gradient-to-b from-void to-forest">
+        <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(143,209,79,0.1)] text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Help us be better</h2>
+            <p class="text-center text-text-muted mb-8">
+                Be the first to train on the world's cleanest compute network.
+            </p>
+            
+            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] text-xl">
+                Train Responsibly
+            </button>
+            
+            <p class="text-xs text-center text-text-muted mt-6">
+                Limited spots available for the initial rollout.
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-12 px-6 text-center border-t border-glass-border mt-12">
+        <p class="text-text-muted text-sm">© 2024 Enverge. Greener than green.</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="interest-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-void/80 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
+    
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <!-- Panel -->
+                <div class="relative transform overflow-hidden rounded-2xl bg-void border border-glass-border text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="modal-panel">
+                    
+                    <!-- Close button -->
+                    <div class="absolute top-4 right-4 z-10">
+                        <button type="button" onclick="closeModal()" class="rounded-full p-2 text-text-muted hover:text-nvidia hover:bg-nvidia/10 transition-colors">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+    
+                    <div class="px-6 py-12 md:px-12">
+                        <div class="text-center mb-10">
+                            <h3 class="text-3xl font-bold text-primary font-display mb-2 text-balance">Next steps</h3>
+                            <p class="text-text-muted text-balance">Based on your compute needs, we can allocate your workloads to the right locations.</p>
+                        </div>
+    
+                        <form onsubmit="submitForm(event)">
+                            
+                            <div class="text-2xl md:text-3xl leading-relaxed text-primary font-light">
+                                <div class="flex flex-col md:flex-row md:items-baseline md:flex-wrap gap-x-3 gap-y-6">
+                                    <strong>I am a</strong>
+                                    <div class="relative min-w-[200px] border-b-2 border-nvidia/30 hover:border-nvidia transition-colors group">
+                                        <select id="role" class="appearance-none bg-transparent w-full py-1 pr-8 text-left font-light text-text-secondary focus:outline-none cursor-pointer group-hover:text-nvidia-dark transition-colors">
+                                            <option value="" disabled selected class="font-light text-text-muted">select role</option>
+                                            <option value="founder">Founder</option>
+                                            <option value="ml-engineer">ML Engineer</option>
+                                            <option value="researcher">Researcher</option>
+                                            <option value="student">Student</option>
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-nvidia">
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row md:items-baseline md:flex-wrap gap-x-3 gap-y-12 mt-12">
+                                    <strong>looking to</strong>
+                                    <div class="relative min-w-[280px] border-b-2 border-nvidia/30 hover:border-nvidia transition-colors group">
+                                        <select id="goal" class="appearance-none bg-transparent w-full py-1 pr-8 text-left font-light text-text-secondary focus:outline-none cursor-pointer group-hover:text-nvidia-dark transition-colors">
+                                            <option value="" disabled selected class="font-light text-text-muted">select goal</option>
+                                            <option value="train">train models</option>
+                                            <option value="finetune">fine-tune models</option>
+                                            <option value="inference">run inference</option>
+                                            <option value="infrastructure">scale infrastructure</option>
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-nvidia">
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </div>
+                                    </div>
+                                    <span>.</span>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row md:items-baseline md:flex-wrap gap-x-3 mt-12">
+                                    <strong>My monthly compute budget is</strong>
+                                    <div class="relative min-w-[240px] border-b-2 border-nvidia/30 hover:border-nvidia transition-colors group">
+                                        <select id="budget" onchange="showSavings()" class="appearance-none bg-transparent w-full py-1 pr-8 text-left font-light text-text-secondary focus:outline-none cursor-pointer group-hover:text-nvidia-dark transition-colors">
+                                            <option value="" disabled selected class="font-light text-text-muted">select budget</option>
+                                            <option value="<1k">&lt; $1,000</option>
+                                            <option value="1k-10k">$1k - $10k</option>
+                                            <option value="10k-50k">$10k - $50k</option>
+                                            <option value="50k+">$50k+</option>
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-nvidia">
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </div>
+                                    </div>
+                                    <span>.</span>
+                                </div>
+
+                                <!-- Savings Message -->
+                                <div id="savings-container" class="overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                                    <p class="text-nvidia font-bold text-xl md:text-2xl italic mt-4">
+                                        We can save you up to 40% of that!
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row md:items-baseline md:flex-wrap gap-x-3 gap-y-12 mt-12">
+                                    <strong>I need to start</strong>
+                                    <div class="relative min-w-[240px] border-b-2 border-nvidia/30 hover:border-nvidia transition-colors group">
+                                        <select id="timeline" class="appearance-none bg-transparent w-full py-1 pr-8 text-left font-light text-text-secondary focus:outline-none cursor-pointer group-hover:text-nvidia-dark transition-colors">
+                                            <option value="" disabled selected class="font-light text-text-muted">select timeline</option>
+                                            <option value="immediately">immediately</option>
+                                            <option value="1-3months">in 1-3 months</option>
+                                            <option value="exploring">just exploring</option>
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-nvidia">
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </div>
+                                    </div>
+                                    <span>.</span>
+                                </div>
+
+                                <div class="flex flex-col md:flex-row md:items-baseline md:flex-wrap gap-x-3 mt-12">
+                                    <strong>You can reach me at:</strong>
+                                    <input type="email" required placeholder="name@company.ai" class="w-full bg-transparent border-b-2 border-nvidia/30 text-2xl md:text-3xl text-text-secondary font-light placeholder:font-light placeholder:text-text-muted/40 focus:outline-none focus:border-nvidia py-2 text-left transition-colors">
+                                </div>
+                            </div>
+    
+                            <div class="my-12">
+                                <button type="submit" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold text-xl py-5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] transform hover:scale-[1.02]">
+                                    Send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal Logic
+        const modal = document.getElementById('interest-modal');
+        const backdrop = document.getElementById('modal-backdrop');
+        const panel = document.getElementById('modal-panel');
+    
+        function openModal(e) {
+            if(e) e.preventDefault();
+            modal.classList.remove('hidden');
+            // Trigger animation
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            }, 10);
+        }
+    
+        function showSavings() {
+            const budgetSelect = document.getElementById('budget');
+            const savingsContainer = document.getElementById('savings-container');
+            
+            if (budgetSelect.value && savingsContainer) {
+                savingsContainer.classList.remove('max-h-0', 'opacity-0');
+                savingsContainer.classList.add('max-h-20', 'opacity-100');
+            }
+        }
+        
+        // Update close modal to reset savings
+        function closeModal() {
+            backdrop.classList.add('opacity-0');
+            panel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                const savingsContainer = document.getElementById('savings-container');
+                if(savingsContainer) {
+                    savingsContainer.classList.add('max-h-0', 'opacity-0');
+                    savingsContainer.classList.remove('max-h-20', 'opacity-100');
+                }
+            }, 300);
+        }
+    
+        // Close on backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === backdrop || e.target.closest('#modal-backdrop')) {
+                closeModal();
+            }
+        });
+    
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    
+        function submitForm(e) {
+            e.preventDefault();
+            // Here you would gather the values
+            const role = document.getElementById('role').value;
+            const goal = document.getElementById('goal').value;
+            const budget = document.getElementById('budget').value;
+            const timeline = document.getElementById('timeline').value;
+            
+            console.log('Form submitted:', { role, goal, budget, timeline });
+            
+            // Show success state (simplified for now)
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = "Received! We'll be in touch.";
+            btn.classList.add('bg-green-500', 'text-white');
+            
+            setTimeout(() => {
+                closeModal();
+                // Reset after close
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-500', 'text-white');
+                    e.target.reset();
+                }, 300);
+            }, 2000);
+        }
+
+        // Text Rotation Logic
+        const rotateText = () => {
+            const phrases = [
+                "6.5 million homes",
+                "1.5x London",
+                "10,000 buses",
+                "2x New York City"
+            ];
+            let currentIndex = 0;
+            const element = document.getElementById('rotating-text');
+            
+            if (!element) return;
+
+            setInterval(() => {
+                // Fade out
+                element.style.opacity = '0';
+                
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % phrases.length;
+                    element.textContent = phrases[currentIndex];
+                    // Fade in
+                    element.style.opacity = '1';
+                }, 500); // Wait for fade out transition (matches duration-500)
+                
+            }, 2000);
+        };
+
+        // Initialize rotation
+        document.addEventListener('DOMContentLoaded', rotateText);
+    </script>
+
+    <script src="grid-animation.js"></script>
+</body>
+</html>
