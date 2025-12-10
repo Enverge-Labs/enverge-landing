@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enverge - Energy Partners</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -163,9 +164,9 @@
     <section id="revenue" class="py-12 px-6">
         <div class="max-w-6xl mx-auto">
             <div class="glass-panel p-8 md:p-12 rounded-2xl mb-12 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-text-primary">Unlock Hidden Value</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-text-primary">Unlock Value</h2>
                 <p class="text-lg text-text-primary leading-relaxed max-w-2xl mx-auto">
-                    Don't let your energy go to waste. Turn every kilowatt into compute power and every lost opportunity into profit.
+                    Turn every kilowatt into compute power and every lost opportunity into profit.
                 </p>
             </div>
 
@@ -187,7 +188,9 @@
                 </div>
 
                 <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
-                    <div class="text-4xl mb-2">🔌</div>
+                    <div class="mb-2 text-nvidia">
+                    <i data-lucide="shield" class="w-10 h-10"></i>
+                </div>
                     <h4 class="text-xl font-bold text-primary mb-3">Grid Independent</h4>
                     <p class="text-text-muted">
                         Create a second revenue stream that's completely independent of electrical grid constraints and pricing.
@@ -198,8 +201,9 @@
     </section>
 
     <!-- Financial Returns -->
+    <div class="bg-gradient-to-b from-transparent to-forest h-10"></div>
     <section id="returns" class="py-24 px-6 bg-forest relative">
-        <div class="max-w-6xl mx-auto">
+        <div class="max-w-6xl mx-auto bg-forest">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Financial Returns</h2>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -229,10 +233,11 @@
             </div>
             
             <p class="text-center text-text-muted mt-8 italic">
-                Exceptional ROI with industry-leading payback periods.
+                Our micro AI datacenters deliver exceptional ROI with industry-leading payback periods
             </p>
         </div>
     </section>
+    <div class="bg-gradient-to-b from-forest to-transparent h-10"></div>
 
     <!-- Industry Leaders -->
     <section class="py-16 px-6">
@@ -240,51 +245,71 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-8 text-primary">Industry Leaders</h2>
             <p class="text-text-secondary mb-12">We partner with the world's most trusted technology companies.</p>
             
-            <div class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-70 hover:opacity-100 transition-all duration-500">
-                <!-- Text representations as placeholders for logos -->
-                <div class="text-3xl font-bold text-text-primary flex items-center gap-2">
-                    <span class="text-nvidia">NVIDIA</span>
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+                <div class="flex flex-col items-center gap-4 group">
+                    <div class="h-16 flex items-center grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
+                        <img src="/assets/nvidia.png" alt="NVIDIA" class="w-24 h-auto">
+                    </div>
+                    <p class="text-sm text-text-muted">Latest GPU technology for maximum compute efficiency</p>
                 </div>
-                <div class="text-3xl font-bold text-text-primary">Lenovo</div>
-                <div class="text-3xl font-bold text-text-primary">Supermicro</div>
-            </div>
-            
-            <div class="mt-8 grid md:grid-cols-3 gap-6 text-sm text-text-muted">
-                 <div>Latest GPU technology for maximum compute efficiency</div>
-                 <div>Enterprise-grade server infrastructure and support</div>
-                 <div>High-performance computing solutions and optimization</div>
+
+                <div class="flex flex-col items-center gap-4 group">
+                    <div class="h-16 flex items-center grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
+                        <img src="/assets/lenovo.png" alt="Lenovo" class="w-24 h-auto">
+                    </div>
+                    <p class="text-sm text-text-muted">Enterprise-grade server infrastructure and support</p>
+                </div>
+
+                <div class="flex flex-col items-center gap-4 group">
+                    <div class="h-16 flex items-center grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500">
+                        <img src="/assets/supermicro.png" alt="Supermicro" class="w-24 h-auto">
+                    </div>
+                    <p class="text-sm text-text-muted">High-performance computing solutions and optimization</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Why Choose Enverge -->
-    <section id="why-us" class="py-24 px-6 bg-void">
+    <section id="why-us" class="py-24 px-6 bg-gradient-to-b from-transparent from-0% via-white via-30% to-void to-100%">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Why Choose Enverge</h2>
             
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors group">
+                    <div class="mb-4 text-nvidia group-hover:scale-110 transition-transform duration-300 origin-left">
+                        <i data-lucide="zap" class="w-10 h-10"></i>
+                    </div>
                     <h4 class="text-xl font-bold text-primary mb-3">Rapid Deployment</h4>
                     <p class="text-text-muted">
                         Global projects deployed in just 60-90 days with minimal site preparation.
                     </p>
                 </div>
 
-                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors group">
+                    <div class="mb-4 text-nvidia group-hover:scale-110 transition-transform duration-300 origin-left">
+                        <i data-lucide="shield-check" class="w-10 h-10"></i>
+                    </div>
                     <h4 class="text-xl font-bold text-primary mb-3">100% Managed</h4>
                     <p class="text-text-muted">
                         Hands-off operation - we manage and monetize your datacenter remotely.
                     </p>
                 </div>
 
-                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors group">
+                    <div class="mb-4 text-nvidia group-hover:scale-110 transition-transform duration-300 origin-left">
+                        <i data-lucide="blocks" class="w-10 h-10"></i>
+                    </div>
                     <h4 class="text-xl font-bold text-primary mb-3">Scalable Solution</h4>
                     <p class="text-text-muted">
                         Modular design that grows with your energy generation capacity.
                     </p>
                 </div>
 
-                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors">
+                <div class="glass-panel p-8 rounded-xl hover:bg-forest/50 transition-colors group">
+                    <div class="mb-4 text-nvidia group-hover:scale-110 transition-transform duration-300 origin-left">
+                        <i data-lucide="globe" class="w-10 h-10"></i>
+                    </div>
                     <h4 class="text-xl font-bold text-primary mb-3">Global Reach</h4>
                     <p class="text-text-muted">
                         We work with renewable energy projects worldwide.
@@ -295,18 +320,24 @@
     </section>
 
     <!-- Final CTA -->
-    <section id="join" class="py-24 px-6 bg-gradient-to-b from-void to-forest">
+    <section id="join" class="py-24 px-6 bg-gradient-to-b from-void from-0% via-forest via-30% to-transparent to-100%">
         <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(143,209,79,0.1)] text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Ready to Monetize?</h2>
             <p class="text-center text-text-muted mb-8">
                 Meet our CEO and assess the ROI potential for your renewable energy site.
             </p>
             
-            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] text-xl">
+            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] text-xl ">
                 Get ROI Assessment
             </button>
-            
-            <p class="text-xs text-center text-text-muted mt-6">
+
+            <p class="text-center text-bold mt-6 text-primary">OR</p>
+
+            <button onclick="openCalendarModal(event)" class="w-full bg-transparent border-2 border-nvidia text-nvidia hover:bg-nvidia-light hover:text-text-muted hover:border-nvidia-light font-bold py-4 rounded-lg transition-all duration-300 text-xl mt-6">
+                Call me
+            </button>
+
+            <p class="text-center mt-2 text-nvidia">
                 Get a custom analysis based on your site's generation curve.
             </p>
         </div>
@@ -414,8 +445,83 @@
         </div>
     </div>
     
+    <!-- Calendar Modal -->
+    <div id="calendar-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-void/80 backdrop-blur-sm transition-opacity opacity-0" id="calendar-modal-backdrop"></div>
+    
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <!-- Panel -->
+                <div class="relative transform overflow-hidden rounded-2xl bg-void border border-glass-border text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-4xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 h-[80vh] flex flex-col" id="calendar-modal-panel">
+                    
+                    <!-- Close button -->
+                    <div class="absolute top-4 right-4 z-10">
+                        <button type="button" onclick="closeCalendarModal()" class="rounded-full p-2 text-text-muted hover:text-nvidia hover:bg-nvidia/10 transition-colors">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="text-center pt-8 pb-4 px-6 shrink-0">
+                        <h3 class="text-2xl font-bold text-primary font-display mb-2">Meet with our CEO</h3>
+                        <p class="text-text-muted">Book a time that works best for you</p>
+                    </div>
+    
+                    <div class="flex-1 w-full">
+                        <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ13Xp6TAxOVTcXwGye1g9lqh2OMkguxPBhPPnxlqx-sa2DThY3SOx08mqTVFEmNYD3ed6Y7-vtx?gv=true" style="border: 0" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Modal Logic
+        // Calendar Modal Logic
+        const calendarModal = document.getElementById('calendar-modal');
+        const calendarBackdrop = document.getElementById('calendar-modal-backdrop');
+        const calendarPanel = document.getElementById('calendar-modal-panel');
+    
+        function openCalendarModal(e) {
+            if(e) e.preventDefault();
+            calendarModal.classList.remove('hidden');
+            // Trigger animation
+            setTimeout(() => {
+                calendarBackdrop.classList.remove('opacity-0');
+                calendarPanel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            }, 10);
+        }
+        
+        function closeCalendarModal() {
+            calendarBackdrop.classList.add('opacity-0');
+            calendarPanel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            setTimeout(() => {
+                calendarModal.classList.add('hidden');
+            }, 300);
+        }
+    
+        // Close on backdrop click
+        calendarModal.addEventListener('click', (e) => {
+            if (e.target === calendarBackdrop || e.target.closest('#calendar-modal-backdrop')) {
+                closeCalendarModal();
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!calendarModal.classList.contains('hidden')) {
+                    closeCalendarModal();
+                }
+                if (!modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            }
+        });
+
+        // ROI Modal Logic
         const modal = document.getElementById('interest-modal');
         const backdrop = document.getElementById('modal-backdrop');
         const panel = document.getElementById('modal-panel');
@@ -445,12 +551,6 @@
             }
         });
     
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModal();
-            }
-        });
     
         function submitForm(e) {
             e.preventDefault();
@@ -480,5 +580,8 @@
     </script>
 
     <script src="grid-animation.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
