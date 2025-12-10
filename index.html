@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enverge - Greener than green</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -12,11 +13,11 @@
                     colors: {
                         'void': '#ffffff', /* Pure white */
                         'forest': '#f0fdf4', /* Mint cream */
-                        'nvidia': '#8FD14F', /* Brand Lime */
-                        'nvidia-dark': '#4d7c2a', /* Darker lime */
-                        'nvidia-light': '#bef264', /* Lighter lime */
+                        'nvidia': '#8BC34A', /* Spring Leaf */
+                        'nvidia-dark': '#6FA836', /* Deeper spring */
+                        'nvidia-light': '#A5D96A', /* Bright spring */
                         'glass': 'rgba(255, 255, 255, 0.7)', /* White tinted glass */
-                        'glass-border': 'rgba(143, 209, 79, 0.3)',
+                        'glass-border': 'rgba(139, 195, 74, 0.3)',
                         'text-primary': '#0a1f0e', /* Dark forest green (almost black) */
                         'text-secondary': '#166534', /* Dark green */
                         'text-muted': '#15803d', /* Medium green */
@@ -27,7 +28,7 @@
                         display: ['Syne', 'sans-serif'], /* Organic/Exotic feel */
                     },
                     backgroundImage: {
-                        'bio-gradient': 'radial-gradient(circle at 50% 50%, rgba(143, 209, 79, 0.1) 0%, transparent 50%)',
+                        'bio-gradient': 'radial-gradient(circle at 50% 50%, rgba(139, 195, 74, 0.1) 0%, transparent 50%)',
                         'rainforest-mist': 'linear-gradient(to bottom, transparent, #ffffff)',
                     }
                 }
@@ -42,7 +43,7 @@
             font-family: 'Outfit', sans-serif;
             background-color: #ffffff;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(143, 209, 79, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 15% 50%, rgba(139, 195, 74, 0.1) 0%, transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(20, 80, 40, 0.05) 0%, transparent 30%);
         }
         h1, h2, h3, h4 {
@@ -52,7 +53,7 @@
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(143, 209, 79, 0.3);
+            border: 1px solid rgba(139, 195, 74, 0.3);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
         /* Organic blob animation */
@@ -64,7 +65,7 @@
         }
         .organic-blob {
             animation: float 20s ease-in-out infinite;
-            background: radial-gradient(circle at 30% 30%, rgba(143, 209, 79, 0.4), rgba(143, 209, 79, 0.1));
+            background: radial-gradient(circle at 30% 30%, rgba(139, 195, 74, 0.4), rgba(139, 195, 74, 0.1));
             filter: blur(60px);
         }
         
@@ -90,18 +91,15 @@
                     
                     <!-- Right Side Actions -->
                     <div class="ml-auto flex items-center gap-8">
-                        <!-- Desktop Menu -->
-                        <div class="hidden md:block">
-                            <div class="flex items-baseline space-x-8">
-                                <a href="/partners.html" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Energy Partners</a>
-                                <a href="#solution" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">GPU Pricing</a>
-                                <a href="#faq" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Labs</a>
-                            </div>
-                        </div>
-
-                        <!-- CTA Button -->
-                        <div class="hidden md:block">
-                            <a href="#" onclick="openModal(event)" class="bg-nvidia hover:bg-nvidia-light text-primary font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(181,232,137,0.4)] text-sm">
+                        <!-- Desktop Menu & CTA -->
+                        <div class="hidden md:flex items-center space-x-8">
+                            <a href="#problem" class="relative inline-flex items-center text-text-primary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                <span>Solution</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 absolute -bottom-1 left-1/2 -translate-x-1/2"></i>
+                            </a>
+                            <a href="/partners.html" class="text-nvidia hover:text-text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Energy Partners</a>
+                            <a href="#faq" class="text-nvidia hover:text-text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">GPU Pricing</a>
+                            <a href="#" onclick="openModal(event)" class="bg-nvidia hover:bg-nvidia-light text-void font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(165,217,106,0.4)] text-sm">
                                 Train Responsibly
                             </a>
                         </div>
@@ -150,10 +148,10 @@
             </div>
 
             <div class="pt-8 flex flex-col md:flex-col items-center justify-center gap-3 md:gap-4">
-                <div class="text-2xl md:text-4xl font-bold text-primary whitespace-nowrap">
+                <div class="text-2xl md:text-4xl font-bold text-nvidia whitespace-nowrap">
                     <span>Stop wasting</span>
                 </div>
-                <a href="#" onclick="openModal(event)" class="group relative inline-flex items-center gap-1 bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(181,232,137,0.8)] overflow-hidden whitespace-nowrap">
+                <a href="#" onclick="openModal(event)" class="group relative inline-flex items-center gap-1 bg-nvidia hover:bg-nvidia-light text-void font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(139,195,74,0.8)] overflow-hidden whitespace-nowrap">
                     <span class="relative z-10 text-2xl md:text-4xl">Compute Responsibly</span>
                     <svg class="w-10 h-10 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                     <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -194,7 +192,7 @@
                         <!-- North America (US) -->
                         <div class="absolute top-[46%] left-[6%] flex flex-col items-center group hover:z-10">
                             <div class="relative">
-                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(143,209,79,0.8)] animate-pulse"></div>
+                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(139,195,74,0.8)] animate-pulse"></div>
                                 <div class="absolute -inset-2 bg-black/20 rounded-full animate-ping opacity-75"></div>
                             </div>
                             <div class="mt-2 glass-panel px-3 py-2 rounded-md border border-glass-border backdrop-blur-md whitespace-nowrap transform transition-transform hover:scale-110">
@@ -206,7 +204,7 @@
                         <!-- South America -->
                         <div class="absolute top-[76%] left-[20%] flex flex-col items-center group hover:z-10">
                             <div class="relative">
-                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(143,209,79,0.8)] animate-pulse"></div>
+                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(139,195,74,0.8)] animate-pulse"></div>
                                 <div class="absolute -inset-2 bg-black/20 rounded-full animate-ping opacity-75"></div>
                             </div>
                             <div class="mt-2 glass-panel px-3 py-2 rounded-md border border-glass-border backdrop-blur-md whitespace-nowrap transform transition-transform hover:scale-110">
@@ -218,7 +216,7 @@
                         <!-- Europe -->
                         <div class="absolute top-[44%] left-[36%] flex flex-col items-center group hover:z-10">
                             <div class="relative">
-                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(143,209,79,0.8)] animate-pulse"></div>
+                                <div class="w-4 h-4 bg-black rounded-full shadow-[0_0_15px_rgba(139,195,74,0.8)] animate-pulse"></div>
                                 <div class="absolute -inset-2 bg-black/20 rounded-full animate-ping opacity-75"></div>
                             </div>
                             <div class="mt-2 glass-panel px-3 py-2 rounded-md border border-glass-border backdrop-blur-md whitespace-nowrap transform transition-transform hover:scale-110">
@@ -332,13 +330,13 @@
 
     <!-- Final CTA -->
     <section id="join" class="py-24 px-6 bg-gradient-to-b from-void to-forest">
-        <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(143,209,79,0.1)] text-center">
+        <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(139,195,74,0.1)] text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Help us be better</h2>
             <p class="text-center text-text-muted mb-8">
                 Be the first to train on the world's cleanest compute network.
             </p>
             
-            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] text-xl">
+            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-void font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,195,74,0.4)] text-xl">
                 Train Responsibly
             </button>
             
@@ -461,7 +459,7 @@
                             </div>
     
                             <div class="my-12">
-                                <button type="submit" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold text-xl py-5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] transform hover:scale-[1.02]">
+                                <button type="submit" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold text-xl py-5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,195,74,0.4)] transform hover:scale-[1.02]">
                                     Send
                                 </button>
                             </div>
@@ -581,7 +579,10 @@
         };
 
         // Initialize rotation
-        document.addEventListener('DOMContentLoaded', rotateText);
+        document.addEventListener('DOMContentLoaded', () => {
+            rotateText();
+            lucide.createIcons();
+        });
     </script>
 
     <script src="grid-animation.js"></script>

@@ -13,11 +13,11 @@
                     colors: {
                         'void': '#ffffff', /* Pure white */
                         'forest': '#f0fdf4', /* Mint cream */
-                        'nvidia': '#8FD14F', /* Brand Lime */
-                        'nvidia-dark': '#4d7c2a', /* Darker lime */
-                        'nvidia-light': '#bef264', /* Lighter lime */
+                        'nvidia': '#8BC34A', /* Spring Leaf */
+                        'nvidia-dark': '#6FA836', /* Deeper spring */
+                        'nvidia-light': '#A5D96A', /* Bright spring */
                         'glass': 'rgba(255, 255, 255, 0.7)', /* White tinted glass */
-                        'glass-border': 'rgba(143, 209, 79, 0.3)',
+                        'glass-border': 'rgba(139, 195, 74, 0.3)',
                         'text-primary': '#0a1f0e', /* Dark forest green (almost black) */
                         'text-secondary': '#166534', /* Dark green */
                         'text-muted': '#15803d', /* Medium green */
@@ -28,7 +28,7 @@
                         display: ['Syne', 'sans-serif'], /* Organic/Exotic feel */
                     },
                     backgroundImage: {
-                        'bio-gradient': 'radial-gradient(circle at 50% 50%, rgba(143, 209, 79, 0.1) 0%, transparent 50%)',
+                        'bio-gradient': 'radial-gradient(circle at 50% 50%, rgba(139, 195, 74, 0.1) 0%, transparent 50%)',
                         'rainforest-mist': 'linear-gradient(to bottom, transparent, #ffffff)',
                     }
                 }
@@ -43,7 +43,7 @@
             font-family: 'Outfit', sans-serif;
             background-color: #ffffff;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(143, 209, 79, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 15% 50%, rgba(139, 195, 74, 0.1) 0%, transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(20, 80, 40, 0.05) 0%, transparent 30%);
         }
         h1, h2, h3, h4 {
@@ -53,7 +53,7 @@
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(143, 209, 79, 0.3);
+            border: 1px solid rgba(139, 195, 74, 0.3);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
         /* Organic blob animation */
@@ -65,7 +65,7 @@
         }
         .organic-blob {
             animation: float 20s ease-in-out infinite;
-            background: radial-gradient(circle at 30% 30%, rgba(143, 209, 79, 0.4), rgba(143, 209, 79, 0.1));
+            background: radial-gradient(circle at 30% 30%, rgba(139, 195, 74, 0.4), rgba(139, 195, 74, 0.1));
             filter: blur(60px);
         }
         
@@ -84,26 +84,25 @@
                 <div class="flex items-center h-20">
                     <!-- Logo -->
                     <div class="flex-shrink-0">
-                        <a href="#" class="text-2xl font-bold text-primary tracking-tight hover:text-nvidia transition-colors">
+                        <a href="/" class="text-2xl font-bold text-primary tracking-tight hover:text-nvidia transition-colors">
                             Enverge.ai
                         </a>
                     </div>
                     
                     <!-- Right Side Actions -->
                     <div class="ml-auto flex items-center gap-8">
-                        <!-- Desktop Menu -->
-                        <div class="hidden md:block">
-                            <div class="flex items-baseline space-x-8">
-                                <a href="#revenue" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Revenue</a>
-                                <a href="#returns" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Returns</a>
-                                <a href="#why-us" class="text-text-secondary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">Why Us</a>
-                            </div>
-                        </div>
-
-                        <!-- CTA Button -->
-                        <div class="hidden md:block">
-                            <a href="#" onclick="openModal(event)" class="bg-nvidia hover:bg-nvidia-light text-primary font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(181,232,137,0.4)] text-sm">
-                                Assess ROI
+                        <!-- Desktop Menu & CTA -->
+                        <div class="hidden md:flex items-center space-x-8">
+                            <a href="/" class="relative inline-flex items-center hover:text-text-primary text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                <span>Solution</span>
+                            </a>
+                            <a href="/partners.html" class="relative inline-flex items-center text-text-primary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                <span>Energy Partners</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 absolute -bottom-1 left-1/2 -translate-x-1/2"></i>
+                            </a>
+                            <a href="#faq" class="text-nvidia hover:text-text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">GPU Pricing</a>
+                            <a href="#" onclick="openModal(event)" class="bg-nvidia hover:bg-nvidia-light text-void font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(165,217,106,0.4)] text-sm">
+                                Train Responsibly
                             </a>
                         </div>
 
@@ -151,7 +150,7 @@
             </div>
 
             <div class="pt-8 flex flex-col md:flex-col items-center justify-center gap-3 md:gap-4">
-                <a href="#" onclick="openModal(event)" class="group relative inline-flex items-center gap-1 bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(181,232,137,0.8)] overflow-hidden whitespace-nowrap">
+                <a href="#" onclick="openModal(event)" class="group relative inline-flex items-center gap-1 bg-nvidia hover:bg-nvidia-light text-void font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(139,195,74,0.8)] overflow-hidden whitespace-nowrap">
                     <span class="relative z-10 text-2xl md:text-4xl">Assess Your ROI</span>
                     <svg class="w-10 h-10 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                     <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -321,17 +320,17 @@
 
     <!-- Final CTA -->
     <section id="join" class="py-24 px-6 bg-gradient-to-b from-void from-0% via-forest via-30% to-transparent to-100%">
-        <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(143,209,79,0.1)] text-center">
+        <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(139,195,74,0.1)] text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Ready to Monetize?</h2>
             <p class="text-center text-text-muted mb-8">
-                Meet our CEO and assess the ROI potential for your renewable energy site.
+                Meet our CEO and assess the ROI potential for your renewable energy site. Custom analysis based on your site's generation and curtailment curve.
             </p>
             
-            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] text-xl ">
+            <button onclick="openModal(event)" class="w-full bg-nvidia hover:bg-nvidia-light text-void font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,195,74,0.4)] text-xl ">
                 Get ROI Assessment
             </button>
 
-            <p class="text-center text-bold mt-6 text-primary">OR</p>
+            <p class="text-center text-bold mt-6 text-text-muted">- OR -</p>
 
             <button onclick="openCalendarModal(event)" class="w-full bg-transparent border-2 border-nvidia text-nvidia hover:bg-nvidia-light hover:text-text-muted hover:border-nvidia-light font-bold py-4 rounded-lg transition-all duration-300 text-xl mt-6">
                 Call me
@@ -434,7 +433,7 @@
                             </div>
     
                             <div class="my-12">
-                                <button type="submit" class="w-full bg-nvidia hover:bg-nvidia-light text-primary font-bold text-xl py-5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(143,209,79,0.4)] transform hover:scale-[1.02]">
+                                <button type="submit" class="w-full bg-nvidia hover:bg-nvidia-light text-void font-bold text-xl py-5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,195,74,0.4)] transform hover:scale-[1.02]">
                                     Request Analysis
                                 </button>
                             </div>
