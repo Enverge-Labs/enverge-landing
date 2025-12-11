@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enverge - GPU Pricing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'void': '#ffffff', /* Pure white */
+                        'forest': '#f0fdf4', /* Mint cream */
+                        'nvidia': '#8BC34A', /* Spring Leaf */
+                        'nvidia-dark': '#6FA836', /* Deeper spring */
+                        'nvidia-light': '#A5D96A', /* Bright spring */
+                        'glass': 'rgba(255, 255, 255, 0.7)', /* White tinted glass */
+                        'glass-border': 'rgba(139, 195, 74, 0.3)',
+                        'text-primary': '#0a1f0e', /* Dark forest green (almost black) */
+                        'text-secondary': '#166534', /* Dark green */
+                        'text-muted': '#15803d', /* Medium green */
+                        'text-subtle': '#16a34a' /* Light green */
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'], /* Organic/Exotic feel */
+                    },
+                    backgroundImage: {
+                        'bio-gradient': 'radial-gradient(circle at 50% 50%, rgba(139, 195, 74, 0.1) 0%, transparent 50%)',
+                        'rainforest-mist': 'linear-gradient(to bottom, transparent, #ffffff)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(139, 195, 74, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(20, 80, 40, 0.05) 0%, transparent 30%);
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 195, 74, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        /* Organic blob animation */
+        @keyframes float {
+            0% { transform: translate(0px, 0px) scale(1); border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            33% { transform: translate(30px, -50px) scale(1.1); border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+            66% { transform: translate(-20px, 20px) scale(0.9); border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            100% { transform: translate(0px, 0px) scale(1); border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+        }
+        .organic-blob {
+            animation: float 20s ease-in-out infinite;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 195, 74, 0.4), rgba(139, 195, 74, 0.1));
+            filter: blur(60px);
+        }
+        
+        /* Custom select styling */
+        select {
+            background-image: none;
+        }
+
+        /* Custom range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-track {
+            background-color: rgba(139, 195, 74, 0.2);
+            height: 0.5rem;
+            border-radius: 1rem;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -8px;
+            background-color: #8BC34A;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background-color: #6FA836;
+            transform: scale(1.1);
+        }
+
+        input[type="range"]::-moz-range-track {
+            background-color: rgba(139, 195, 74, 0.2);
+            height: 0.5rem;
+            border-radius: 1rem;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            background-color: #8BC34A;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background-color: #6FA836;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-void text-text-primary antialiased selection:bg-nvidia selection:text-white pt-20">
+
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300" id="navbar">
+        <div class="glass-panel border-b border-glass-border">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex items-center h-20">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0">
+                        <a href="/" class="text-2xl font-bold text-primary tracking-tight hover:text-nvidia transition-colors">
+                            Enverge.ai
+                        </a>
+                    </div>
+                    
+                    <!-- Right Side Actions -->
+                    <div class="ml-auto flex items-center gap-8">
+                        <!-- Desktop Menu & CTA -->
+                        <div class="hidden md:flex items-center space-x-8">
+                            <a href="/" class="relative inline-flex items-center hover:text-text-primary text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                <span>Solution</span>
+                            </a>
+                            <a href="/partners.html" class="text-nvidia hover:text-text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                Energy Partners
+                            </a>
+                            <a href="/gpu-pricing.html" class="relative inline-flex items-center text-text-primary hover:text-nvidia px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                <span>GPU Pricing</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 absolute -bottom-1 left-1/2 -translate-x-1/2"></i>
+                            </a>
+                            <a href="#" onclick="openModal(event)" class="bg-nvidia hover:bg-nvidia-light text-void font-bold py-2.5 px-6 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(165,217,106,0.4)] text-sm">
+                                Train Responsibly
+                            </a>
+                        </div>
+
+                        <!-- Mobile menu button -->
+                        <div class="-mr-2 flex md:hidden">
+                            <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-text-secondary hover:text-primary hover:bg-primary/10 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+                                <span class="sr-only">Open main menu</span>
+                                <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden glass-panel border-t border-glass-border" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#revenue" class="text-text-secondary hover:text-nvidia block px-3 py-2 rounded-md text-base font-medium">Revenue</a>
+                    <a href="#returns" class="text-text-secondary hover:text-nvidia block px-3 py-2 rounded-md text-base font-medium">Returns</a>
+                    <a href="#why-us" class="text-text-secondary hover:text-nvidia block px-3 py-2 rounded-md text-base font-medium">Why Us</a>
+                    <a href="#" onclick="openModal(event); document.getElementById('mobile-menu').classList.add('hidden');" class="text-primary bg-nvidia hover:bg-nvidia-light block px-3 py-2 rounded-md text-base font-bold mt-4">Assess ROI</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Calculator -->
+    <header class="min-h-screen flex flex-col justify-center items-center px-6 py-12 relative overflow-visible">
+        <div class="absolute top-0 left-0 w-full h-full overflow-visible -z-10 opacity-40 pointer-events-none">
+            <div class="organic-blob absolute top-1/4 left-1/4 w-96 h-96 bg-nvidia-light/30"></div>
+            <div class="organic-blob absolute bottom-1/4 right-1/4 w-64 h-64 bg-nvidia/20 animation-delay-2000" style="animation-delay: -5s;"></div>
+            <div class="organic-blob absolute top-3/4 left-1/2 w-80 h-80 bg-forest" style="animation-delay: -10s;"></div>
+        </div>
+
+        <div class="max-w-5xl w-full mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-8">
+                    <span class="text-nvidia">GPU Pricing</span>
+                </h1>
+                
+                <!-- Three Pricing Principles -->
+                <div class="grid md:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto">
+                    <!-- Simple -->
+                    <div class="glass-panel p-6 rounded-2xl border-2 border-nvidia/40 hover:border-nvidia transition-all">
+                        <div class="flex justify-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-nvidia/20 flex items-center justify-center">
+                                <i data-lucide="zap" class="w-6 h-6 text-nvidia"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-text-primary mb-2">Simple</h3>
+                        <p class="text-sm text-text-muted">Pay per minute of GPU usage</p>
+                    </div>
+                    
+                    <!-- Transparent -->
+                    <div class="glass-panel p-6 rounded-2xl border-2 border-nvidia/40 hover:border-nvidia transition-all">
+                        <div class="flex justify-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-nvidia/20 flex items-center justify-center">
+                                <i data-lucide="eye" class="w-6 h-6 text-nvidia"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-text-primary mb-2">Transparent</h3>
+                        <p class="text-sm text-text-muted">No hidden costs like CPU and storage</p>
+                    </div>
+                    
+                    <!-- Fair -->
+                    <div class="glass-panel p-6 rounded-2xl border-2 border-nvidia/40 hover:border-nvidia transition-all">
+                        <div class="flex justify-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-nvidia/20 flex items-center justify-center">
+                                <i data-lucide="scale" class="w-6 h-6 text-nvidia"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-text-primary mb-2">Fair</h3>
+                        <p class="text-sm text-text-muted">Pay only when GPU is actually used</p>
+                    </div>
+                </div>
+                
+                <p class="text-xl md:text-2xl text-text-secondary font-light max-w-3xl mx-auto mt-24">
+                    Calculate your GPU costs and see how much CO₂ you're saving and kWh recovering with data centers <span class="underline">powered by wasted renewable energy</span>.
+                </p>
+            </div>
+
+            <!-- Calculator Card -->
+            <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 text-text-primary">GPU Pricing Calculator</h2>
+                <p class="text-center text-text-muted mb-12">Calculate your costs and environmental impact</p>
+
+                <form id="calculator-form" class="space-y-8">
+                    <!-- GPU Selection -->
+                    <div class="space-y-3">
+                        <label class="block text-lg font-semibold text-text-primary">Select GPU</label>
+                        <div class="relative">
+                            <select id="gpu-type" class="w-full bg-void border-2 border-nvidia/30 rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-nvidia transition-colors appearance-none cursor-pointer">
+                                <!-- Options populated dynamically from CALCULATOR_CONFIG -->
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-nvidia">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPU Quantity -->
+                    <div class="space-y-3">
+                        <label class="block text-lg font-semibold text-text-primary">GPU Quantity: <span id="quantity-value" class="text-nvidia">1</span></label>
+                        <input type="range" id="gpu-quantity" min="1" max="100" value="1" class="w-full">
+                        <div class="flex justify-between text-sm text-text-muted">
+                            <span>1</span>
+                            <span>100</span>
+                        </div>
+                    </div>
+
+                    <!-- Hours per Month -->
+                    <div class="space-y-3">
+                        <label class="block text-lg font-semibold text-text-primary">Hours per Month: <span id="hours-value" class="text-nvidia">730</span></label>
+                        <input type="range" id="hours-month" min="1" max="730" value="1" class="w-full">
+                        <div class="flex justify-between text-sm text-text-muted">
+                            <span>1h</span>
+                            <span>730h (24/7)</span>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Results -->
+                <div id="results" class="mt-8 space-y-6 hidden">
+                    <div class="border-t-2 border-nvidia/20 pt-8">
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-forest/30 rounded-xl p-6 text-center">
+                                <div class="text-sm text-text-muted mb-2">Monthly Cost</div>
+                                <div class="text-4xl font-bold text-nvidia" id="monthly-cost">$0.00</div>
+                            </div>
+                            <div class="bg-forest/30 rounded-xl p-6 text-center">
+                                <div class="text-sm text-text-muted mb-2">CO₂ Saved</div>
+                                <div class="text-4xl font-bold text-nvidia" id="co2-saved">0.00 kg</div>
+                            </div>
+                            <div class="bg-forest/30 rounded-xl p-6 text-center">
+                                <div class="text-sm text-text-muted mb-2">kWh Saved</div>
+                                <div class="text-4xl font-bold text-nvidia" id="kwh-saved">0.00 kWh</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <p class="text-text-muted text-sm">
+                                <i data-lucide="leaf" class="w-4 h-4 inline mr-1 text-nvidia"></i>
+                                Powered by wasted renewable energy
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Trusted By -->
+    <section class="py-16 px-6 bg-gradient-to-b from-transparent to-forest">
+        <div class="max-w-6xl mx-auto flex flex-row flex-wrap justify-center items-center gap-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-text-primary">Trusted By</h2>
+            <img src="/assets/nvidia-inception-program-badge.png" alt="NVIDIA Inception Program" class="h-20">
+        </div>
+    </section>
+
+    <!-- GPU Pricing Cards -->
+    <section id="gpu-pricing" class="py-24 px-6 bg-forest">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-text-primary">Choose Your GPU</h2>
+            <p class="text-center text-text-muted mb-4 max-w-2xl mx-auto text-lg">
+                Pay per minute of actual GPU usage. No hidden fees for CPU, storage, or network.
+            </p>
+            <p class="text-center text-nvidia font-semibold mb-12">
+                What you see is what you pay.
+            </p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- B300 Card -->
+                <div class="glass-panel p-8 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,195,74,0.3)] border-2 border-transparent hover:border-nvidia/30">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-text-primary mb-2">B300</h3>
+                        <p class="text-text-muted">288GB HBM3e</p>
+                    </div>
+                    <div class="text-center mb-6">
+                        <div class="text-5xl font-bold text-nvidia mb-1">$5.00</div>
+                        <div class="text-text-muted">/hour</div>
+                        <div class="mt-2">
+                            <span class="inline-block bg-nvidia/10 text-nvidia text-xs font-semibold px-3 py-1 rounded-full">All-Inclusive</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">288GB HBM3e Memory</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">8TB/s Memory Bandwidth</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">Next-Gen Architecture</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">Advanced AI Acceleration</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- H200 Card - Most Popular -->
+                <div class="glass-panel p-8 rounded-xl hover:scale-105 transition-all duration-300 border-2 border-nvidia shadow-[0_0_30px_rgba(139,195,74,0.2)] relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-nvidia text-void px-4 py-1 rounded-full text-sm font-bold">
+                        Most Popular
+                    </div>
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-text-primary mb-2">H200</h3>
+                        <p class="text-text-muted">141GB HBM3e</p>
+                    </div>
+                    <div class="text-center mb-6">
+                        <div class="text-5xl font-bold text-nvidia mb-1">$2.50</div>
+                        <div class="text-text-muted">/hour</div>
+                        <div class="mt-2">
+                            <span class="inline-block bg-nvidia/10 text-nvidia text-xs font-semibold px-3 py-1 rounded-full">All-Inclusive</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">141GB HBM3e Memory</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">4.8TB/s Memory Bandwidth</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">FP8 Support</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">Latest Architecture</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- H100 Card -->
+                <div class="glass-panel p-8 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,195,74,0.3)] border-2 border-transparent hover:border-nvidia/30">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-text-primary mb-2">H100</h3>
+                        <p class="text-text-muted">80GB HBM3</p>
+                    </div>
+                    <div class="text-center mb-6">
+                        <div class="text-5xl font-bold text-nvidia mb-1">$2.00</div>
+                        <div class="text-text-muted">/hour</div>
+                        <div class="mt-2">
+                            <span class="inline-block bg-nvidia/10 text-nvidia text-xs font-semibold px-3 py-1 rounded-full">All-Inclusive</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">80GB HBM3 Memory</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">3.35TB/s Memory Bandwidth</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">Tensor Cores</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">PCIe Gen5</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- A100 Card -->
+                <div class="glass-panel p-8 rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,195,74,0.3)] border-2 border-transparent hover:border-nvidia/30">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-text-primary mb-2">A100</h3>
+                        <p class="text-text-muted">80GB HBM2e</p>
+                    </div>
+                    <div class="text-center mb-6">
+                        <div class="text-5xl font-bold text-nvidia mb-1">$1.20</div>
+                        <div class="text-text-muted">/hour</div>
+                        <div class="mt-2">
+                            <span class="inline-block bg-nvidia/10 text-nvidia text-xs font-semibold px-3 py-1 rounded-full">All-Inclusive</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">80GB HBM2e Memory</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">2TB/s Memory Bandwidth</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">Multi-Instance GPU</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia mr-2 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-text-primary text-sm">NVLink</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You See Is What You Pay -->
+    <section class="py-24 px-6 bg-gradient-to-b from-forest to-void">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-text-primary">What You See Is What You Pay</h2>
+            <p class="text-center text-text-muted mb-16 max-w-2xl mx-auto">
+                Unlike other providers, our pricing is completely transparent. No surprise bills, no hidden fees.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Typical Provider -->
+                <div class="glass-panel p-8 rounded-2xl border-2 border-red-300/50">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                            <i data-lucide="x" class="w-5 h-5 text-red-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-text-primary">Typical Provider</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="minus-circle" class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">GPU: $2.50/hour</p>
+                                <p class="text-sm text-text-muted">Pay even when idle</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="minus-circle" class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">+ CPU: $0.50/hour</p>
+                                <p class="text-sm text-text-muted">Hidden in fine print</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="minus-circle" class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">+ Storage: $0.15/GB</p>
+                                <p class="text-sm text-text-muted">Adds up quickly</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="minus-circle" class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">+ Network: $0.10/GB</p>
+                                <p class="text-sm text-text-muted">Egress fees surprise you</p>
+                            </div>
+                        </div>
+                        <div class="border-t-2 border-red-300/30 pt-4 mt-4">
+                            <p class="text-2xl font-bold text-red-600">$3.25+/hour</p>
+                            <p class="text-sm text-text-muted">Plus storage & network</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enverge -->
+                <div class="glass-panel p-8 rounded-2xl border-2 border-nvidia shadow-[0_0_30px_rgba(139,195,74,0.2)]">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-nvidia/20 flex items-center justify-center">
+                            <i data-lucide="check" class="w-5 h-5 text-nvidia"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-text-primary">Enverge</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-nvidia flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">H200: $2.50/hour</p>
+                                <p class="text-sm text-text-muted">Only when GPU is actively used</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-nvidia flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">CPU: Included</p>
+                                <p class="text-sm text-text-muted">No extra charge</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-nvidia flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">Storage: Included</p>
+                                <p class="text-sm text-text-muted">No surprise bills</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-nvidia flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="font-semibold text-text-primary">Network: Included</p>
+                                <p class="text-sm text-text-muted">Transfer data freely</p>
+                            </div>
+                        </div>
+                        <div class="border-t-2 border-nvidia/30 pt-4 mt-4">
+                            <p class="text-2xl font-bold text-nvidia">$2.50/hour</p>
+                            <p class="text-sm text-text-muted">All-inclusive, per minute billing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Differentiators -->
+            <div class="mt-16 grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-nvidia/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="clock" class="w-8 h-8 text-nvidia"></i>
+                    </div>
+                    <h4 class="font-bold text-text-primary mb-2">Per-Minute Billing</h4>
+                    <p class="text-sm text-text-muted">Granular billing means you only pay for what you use, down to the minute</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-nvidia/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="activity" class="w-8 h-8 text-nvidia"></i>
+                    </div>
+                    <h4 class="font-bold text-text-primary mb-2">Actual Usage Only</h4>
+                    <p class="text-sm text-text-muted">Unlike allocated pricing, you're only charged when your GPU is actively computing</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-nvidia/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="file-text" class="w-8 h-8 text-nvidia"></i>
+                    </div>
+                    <h4 class="font-bold text-text-primary mb-2">Zero Hidden Fees</h4>
+                    <p class="text-sm text-text-muted">CPU, storage, and network are all included in the GPU price. Period.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-24 px-6 bg-void">
+        <div class="max-w-xl mx-auto glass-panel p-10 rounded-2xl border border-nvidia/20 shadow-[0_0_40px_rgba(139,195,74,0.1)] text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-text-primary">Ready to Get Started?</h2>
+            <p class="text-center text-text-muted mb-8">
+                Join our beta and start training your models on 100% renewable energy today.
+            </p>
+            
+            <a href="https://lab.enverge.ai/signup" target="_blank" rel="noopener noreferrer" class="block w-full bg-nvidia hover:bg-nvidia-light text-void font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,195,74,0.4)] text-xl">
+                Train Responsibly
+            </a>
+
+            <p class="text-center text-bold mt-6 text-text-muted">- OR -</p>
+
+            <button onclick="openCalendarModal(event)" class="block w-full bg-transparent border-2 border-nvidia text-nvidia hover:bg-nvidia-light hover:text-void hover:border-nvidia-light font-bold py-4 rounded-lg transition-all duration-300 text-xl mt-6">
+                Let's chat!
+            </button>
+
+            <p class="text-center mt-2 text-nvidia">
+                Save costs and reduce your carbon footprint
+                <i data-lucide="leaf" class="w-4 h-4 inline mr-1"></i>
+            </p>
+        </div>
+    </section>
+
+    <footer class="bg-text-primary border-t border-text-secondary/30">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <img src="/assets/enverge-logo-square.png" alt="Enverge Logo" class="w-8 h-8 rounded-full object-cover" />
+                        <span class="text-forest text-xl font-bold">Enverge.ai</span>
+                    </div>
+                    <p class="text-void text-sm">
+                        Greener and cheaper AI development with our GPU cloud platform powered by 100% renewable energy.
+                    </p>
+                    <div class="flex items-center space-x-2 text-void text-sm">
+                        <span>Powered by Green Energy</span>
+                        <i data-lucide="leaf" class="w-4 h-4 text-void"></i>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-forest font-semibold">Product</h3>
+                    <div class="space-y-2">
+                        <a href="/gpu-pricing.html" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">GPU Pricing</a>
+                        <a href="/partners.html" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">Energy Partners</a>
+                        <a href="/enverge-lab" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">Enverge Lab</a>
+                        <a href="https://lab.enverge.ai/signup" target="_blank" rel="noopener noreferrer" class="flex items-center text-text-subtle hover:text-nvidia-light transition-colors text-sm">
+                            Join Beta
+                            <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-forest font-semibold">Resources</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">Documentation</a>
+                        <a href="#" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">API Reference</a>
+                        <a href="#" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">Tutorials</a>
+                        <a href="#" class="block text-text-subtle hover:text-nvidia-light transition-colors text-sm">Support</a>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-forest font-semibold">Contact</h3>
+                    <div class="space-y-2">
+                        <a href="mailto:info@enverge.ai" class="flex items-center space-x-2 text-text-subtle text-sm hover:text-nvidia-light transition-colors">
+                            <span>info@enverge.ai</span>
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-text-secondary/30 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-text-subtle text-sm">© 2025 Enverge Corp. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-text-subtle hover:text-nvidia-light transition-colors text-sm">Privacy Policy</a>
+                    <a href="#" class="text-text-subtle hover:text-nvidia-light transition-colors text-sm">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Calendar Modal -->
+    <div id="calendar-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-void/80 backdrop-blur-sm transition-opacity opacity-0" id="calendar-modal-backdrop"></div>
+    
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <!-- Panel -->
+                <div class="relative transform overflow-hidden rounded-2xl bg-void border border-glass-border text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-4xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 h-[80vh] flex flex-col" id="calendar-modal-panel">
+                    
+                    <!-- Close button -->
+                    <div class="absolute top-4 right-4 z-10">
+                        <button type="button" onclick="closeCalendarModal()" class="rounded-full p-2 text-text-muted hover:text-nvidia hover:bg-nvidia/10 transition-colors">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6lt12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="text-center pt-8 pb-4 px-6 shrink-0">
+                        <h3 class="text-2xl font-bold text-primary font-display mb-2">Schedule a Chat</h3>
+                        <p class="text-text-muted">Book a time that works best for you</p>
+                    </div>
+    
+                    <div class="flex-1 w-full">
+                        <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ13Xp6TAxOVTcXwGye1g9lqh2OMkguxPBhPPnxlqx-sa2DThY3SOx08mqTVFEmNYD3ed6Y7-vtx?gv=true" style="border: 0" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Calendar Modal Logic
+        const calendarModal = document.getElementById('calendar-modal');
+        const calendarBackdrop = document.getElementById('calendar-modal-backdrop');
+        const calendarPanel = document.getElementById('calendar-modal-panel');
+    
+        function openCalendarModal(e) {
+            if(e) e.preventDefault();
+            calendarModal.classList.remove('hidden');
+            // Trigger animation
+            setTimeout(() => {
+                calendarBackdrop.classList.remove('opacity-0');
+                calendarPanel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            }, 10);
+        }
+        
+        function closeCalendarModal() {
+            calendarBackdrop.classList.add('opacity-0');
+            calendarPanel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            setTimeout(() => {
+                calendarModal.classList.add('hidden');
+            }, 300);
+        }
+    
+        // Close on backdrop click
+        calendarModal.addEventListener('click', (e) => {
+            if (e.target === calendarBackdrop || e.target.closest('#calendar-modal-backdrop')) {
+                closeCalendarModal();
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!calendarModal.classList.contains('hidden')) {
+                    closeCalendarModal();
+                }
+            }
+        });
+
+        // GPU Pricing Calculator Configuration
+        const CALCULATOR_CONFIG = {
+            // GPU Power and Environmental Settings
+            gpuPowerConsumptionKw: 0.3,  // 300W average GPU power consumption in kW
+            co2SavedPerKwh: 0.5,          // kg CO2 saved per kWh (renewable vs grid average)
+            
+            // Slider Settings
+            quantity: {
+                min: 1,
+                max: 100,
+                default: 1
+            },
+            hoursPerMonth: {
+                min: 1,
+                max: 730,  // 24/7 for a month
+                default: 1
+            },
+            
+            // GPU Pricing Data
+            gpus: {
+                b300: {
+                    name: "B300",
+                    memory: "288GB HBM3e",
+                    pricePerHour: 5.00,
+                    memoryBandwidth: "8TB/s"
+                },
+                h200: {
+                    name: "H200",
+                    memory: "141GB HBM3e",
+                    pricePerHour: 2.50,
+                    memoryBandwidth: "4.8TB/s"
+                },
+                h100: {
+                    name: "H100",
+                    memory: "80GB HBM3",
+                    pricePerHour: 2.00,
+                    memoryBandwidth: "3.35TB/s"
+                },
+                a100: {
+                    name: "A100",
+                    memory: "80GB HBM2e",
+                    pricePerHour: 1.20,
+                    memoryBandwidth: "2TB/s"
+                }
+            }
+        };
+
+        // Populate GPU select options from CALCULATOR_CONFIG
+        function populateGPUOptions() {
+            const gpuSelect = document.getElementById('gpu-type');
+            gpuSelect.innerHTML = ''; // Clear existing options
+            
+            // Default selected GPU
+            const defaultGPU = 'h200';
+            
+            // Populate options from config
+            Object.keys(CALCULATOR_CONFIG.gpus).forEach(gpuKey => {
+                const gpu = CALCULATOR_CONFIG.gpus[gpuKey];
+                const option = document.createElement('option');
+                option.value = gpuKey;
+                option.setAttribute('data-price', gpu.pricePerHour);
+                option.setAttribute('data-memory', gpu.memory);
+                option.textContent = `${gpu.name} - ${gpu.memory} - $${gpu.pricePerHour.toFixed(2)}/hour`;
+                
+                // Set default selection
+                if (gpuKey === defaultGPU) {
+                    option.selected = true;
+                }
+                
+                gpuSelect.appendChild(option);
+            });
+        }
+
+        // Initialize sliders from CALCULATOR_CONFIG
+        function initializeSliders() {
+            // GPU Quantity slider
+            const quantitySlider = document.getElementById('gpu-quantity');
+            quantitySlider.min = CALCULATOR_CONFIG.quantity.min;
+            quantitySlider.max = CALCULATOR_CONFIG.quantity.max;
+            quantitySlider.value = CALCULATOR_CONFIG.quantity.default;
+            document.getElementById('quantity-value').textContent = CALCULATOR_CONFIG.quantity.default;
+            
+            // Update quantity labels
+            const quantityLabels = document.querySelectorAll('#gpu-quantity ~ .flex span');
+            if (quantityLabels.length >= 2) {
+                quantityLabels[0].textContent = CALCULATOR_CONFIG.quantity.min;
+                quantityLabels[1].textContent = CALCULATOR_CONFIG.quantity.max;
+            }
+            
+            // Hours per Month slider
+            const hoursSlider = document.getElementById('hours-month');
+            hoursSlider.min = CALCULATOR_CONFIG.hoursPerMonth.min;
+            hoursSlider.max = CALCULATOR_CONFIG.hoursPerMonth.max;
+            hoursSlider.value = CALCULATOR_CONFIG.hoursPerMonth.default;
+            document.getElementById('hours-value').textContent = CALCULATOR_CONFIG.hoursPerMonth.default;
+            
+            // Update hours labels
+            const hoursLabels = document.querySelectorAll('#hours-month ~ .flex span');
+            if (hoursLabels.length >= 2) {
+                hoursLabels[0].textContent = CALCULATOR_CONFIG.hoursPerMonth.min + 'h';
+                hoursLabels[1].textContent = CALCULATOR_CONFIG.hoursPerMonth.max + 'h (24/7)';
+            }
+        }
+
+        // Calculate costs function
+        function calculateCosts() {
+            const gpuSelect = document.getElementById('gpu-type');
+            const selectedOption = gpuSelect.options[gpuSelect.selectedIndex];
+            const pricePerHour = parseFloat(selectedOption.getAttribute('data-price'));
+            const quantity = parseInt(document.getElementById('gpu-quantity').value);
+            const hours = parseInt(document.getElementById('hours-month').value);
+
+            // Calculate monthly cost
+            const monthlyCost = pricePerHour * quantity * hours;
+
+            // Calculate CO2 saved and kWh
+            const kwh = (CALCULATOR_CONFIG.gpuPowerConsumptionKw * quantity * hours);
+            const co2Saved = kwh * CALCULATOR_CONFIG.co2SavedPerKwh;
+
+            // Display results
+            document.getElementById('monthly-cost').textContent = '$' + monthlyCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('co2-saved').textContent = co2Saved.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kg';
+            document.getElementById('kwh-saved').textContent = kwh.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh';
+            
+            // Show results
+            document.getElementById('results').classList.remove('hidden');
+        }
+
+        // Update slider values and recalculate
+        document.getElementById('gpu-quantity').addEventListener('input', function(e) {
+            document.getElementById('quantity-value').textContent = e.target.value;
+            calculateCosts();
+        });
+
+        document.getElementById('hours-month').addEventListener('input', function(e) {
+            document.getElementById('hours-value').textContent = e.target.value;
+            calculateCosts();
+        });
+
+        // Recalculate when GPU type changes
+        document.getElementById('gpu-type').addEventListener('change', function() {
+            calculateCosts();
+        });
+
+        // Initialize page
+        populateGPUOptions();  // Populate GPU options from config first
+        initializeSliders();   // Initialize slider values from config
+        calculateCosts();      // Then calculate initial values
+
+        // Initialize lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
