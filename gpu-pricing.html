@@ -80,12 +80,15 @@
             appearance: none;
             background: transparent;
             cursor: pointer;
+            width: 100%;
+            height: 1.5rem;
         }
 
-        input[type="range"]::-webkit-slider-track {
+        input[type="range"]::-webkit-slider-runnable-track {
             background-color: rgba(139, 195, 74, 0.2);
             height: 0.5rem;
             border-radius: 1rem;
+            width: 100%;
         }
 
         input[type="range"]::-webkit-slider-thumb {
@@ -108,6 +111,7 @@
             background-color: rgba(139, 195, 74, 0.2);
             height: 0.5rem;
             border-radius: 1rem;
+            width: 100%;
         }
 
         input[type="range"]::-moz-range-thumb {
@@ -277,20 +281,29 @@
                     </div>
                 </form>
 
-                <!-- Results -->
+                <!-- Results with Forest Visualization -->
                 <div id="results" class="mt-8 space-y-6 hidden">
                     <div class="border-t-2 border-nvidia/20 pt-8">
+                        <!-- Forest Canvas Container -->
+                        <div id="forest-visualization" class="relative h-48 mb-6 rounded-xl overflow-hidden bg-gradient-to-b from-forest/10 to-forest/30">
+                            <div class="absolute bottom-4 left-4 z-10 text-xs text-text-muted opacity-70">
+                                <i data-lucide="trees" class="w-4 h-4 inline mr-1"></i>
+                                Hover trees for details
+                            </div>
+                        </div>
+                        
                         <div class="grid md:grid-cols-3 gap-6">
-                            <div class="bg-forest/30 rounded-xl p-6 text-center">
+                            <div class="bg-forest/30 rounded-xl p-6 text-center relative z-10">
                                 <div class="text-sm text-text-muted mb-2">Monthly Cost</div>
                                 <div class="text-4xl font-bold text-nvidia" id="monthly-cost">$0.00</div>
                             </div>
-                            <div class="bg-forest/30 rounded-xl p-6 text-center">
+                            <div class="bg-forest/30 rounded-xl p-6 text-center relative z-10">
                                 <div class="text-sm text-text-muted mb-2">CO₂ Saved</div>
                                 <div class="text-4xl font-bold text-nvidia" id="co2-saved">0.00 kg</div>
+                                <div class="text-xs text-text-muted mt-1" id="trees-equivalent"></div>
                             </div>
-                            <div class="bg-forest/30 rounded-xl p-6 text-center">
-                                <div class="text-sm text-text-muted mb-2">kWh Saved</div>
+                            <div class="bg-forest/30 rounded-xl p-6 text-center relative z-10">
+                                <div class="text-sm text-text-muted mb-2">kWh Recovered</div>
                                 <div class="text-4xl font-bold text-nvidia" id="kwh-saved">0.00 kWh</div>
                             </div>
                         </div>
@@ -868,8 +881,17 @@
             document.getElementById('co2-saved').textContent = co2Saved.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kg';
             document.getElementById('kwh-saved').textContent = kwh.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kWh';
             
+            // Update trees equivalent text
+            const treesEquiv = Math.floor(co2Saved / 5) + quantity;
+            document.getElementById('trees-equivalent').textContent = `≈ ${treesEquiv} tree${treesEquiv !== 1 ? 's' : ''} growing`;
+            
             // Show results
             document.getElementById('results').classList.remove('hidden');
+            
+            // Update forest visualization
+            if (typeof updateForest === 'function') {
+                updateForest(co2Saved, kwh, quantity, hours);
+            }
         }
 
         // Update slider values and recalculate
@@ -896,5 +918,6 @@
         // Initialize lucide icons
         lucide.createIcons();
     </script>
+    <script src="forest-animation.js"></script>
 </body>
 </html>
